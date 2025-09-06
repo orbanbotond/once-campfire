@@ -8,14 +8,16 @@ gem "rails", github: "rails/rails", branch: "main"
 
 # Drivers
 gem "sqlite3", "~> 2.7"
-gem "redis", "~> 5.4"
+# gem "redis", "~> 5.4"
 
 # Deployment
 gem "puma", "~> 6.6"
 
 # Jobs
-gem "resque", "~> 2.7.0"
-gem "resque-pool", "~> 0.7.1"
+# gem "resque", "~> 2.7.0"
+# gem "resque-pool", "~> 0.7.1"
+gem "solid_queue"
+gem "solid_cable"
 
 # Assets
 gem "propshaft", github: "rails/propshaft"
