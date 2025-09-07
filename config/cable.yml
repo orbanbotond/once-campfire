@@ -16,6 +16,7 @@ test:
 
 production:
   adapter: solid_cable
+  channel_prefix: campfire_development
   connects_to:
     database:
       writing: cable
