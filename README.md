@@ -1,3 +1,5 @@
+[![CI](https://github.com/orbanbotond/once-campfire/actions/workflows/ci.yml/badge.svg)](https://github.com/orbanbotond/once-campfire/actions/workflows/ci.yml)
+
 # Campfire
 
 Campfire is web-based chat application. It supports many of the features you'd
