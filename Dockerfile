@@ -75,4 +75,5 @@ ENV GIT_REVISION=$GIT_REVISION
 EXPOSE 80 443
 
 # Start the server by default, this can be overwritten at runtime
-CMD ["bin/boot"]
+CMD ["./bin/thrust", "./bin/rails", "server"]
+# CMD ["bin/boot"]
