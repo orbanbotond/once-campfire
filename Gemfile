@@ -17,6 +17,9 @@ gem "solid_queue"
 
 gem "solid_cable"
 
+# Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
+gem "kamal", require: false
+
 # Assets
 gem "propshaft", github: "rails/propshaft"
 gem "importmap-rails", github: "rails/importmap-rails"

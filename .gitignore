@@ -42,3 +42,7 @@ app/assets/builds/*
 
 # Ignore our exported zipfiles
 /*.zip
+
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+
