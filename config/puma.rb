@@ -6,7 +6,7 @@ require File.expand_path("../config/environment", File.dirname(__FILE__))
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum; this matches the default thread size of Active Record.
 #
-max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+max_threads_count = ENV.fetch("RAILS_MAX_THREADS") { 3 }
 min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
 threads min_threads_count, max_threads_count
 
@@ -18,6 +18,8 @@ worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 # Bind http listener.
 PORT=ENV.fetch("PORT", 3000)
 bind "tcp://0.0.0.0:#{PORT}"
+
+# port ENV.fetch("PORT", 3000)
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -46,6 +48,9 @@ ENV["JOB_CONCURRENCY"] ||= worker_count.to_s
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
+
+# Run the Solid Queue supervisor inside of Puma for single-server deployments
+plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
 
 # Reset all membership connections
 Membership.disconnect_all
