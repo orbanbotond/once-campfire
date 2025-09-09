@@ -16,6 +16,7 @@ gem "puma", "~> 6.6"
 gem "solid_queue"
 
 gem "solid_cable"
+gem "solid_cache"
 
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 gem "kamal", require: false
@@ -43,7 +44,6 @@ gem "rails_autolink"
 gem "geared_pagination"
 gem "jbuilder"
 gem "net-http-persistent"
-gem "kredis"
 gem "platform_agent"
 gem "thruster"
 
