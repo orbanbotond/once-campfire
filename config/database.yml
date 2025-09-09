@@ -24,7 +24,7 @@ development:
     migrations_paths: db/cable_migrate
   cache:
     <<: *default
-    database: storage/development_cache.sqlite3
+    database: storage/db/development_cache.sqlite3
     migrations_paths: db/cache_migrate
 
 # Warning: The database defined as "test" will be erased and
@@ -54,5 +54,5 @@ production:
     migrations_paths: db/cable_migrate
   cache:
     <<: *default
-    database: storage/production_cache.sqlite3
+    database: storage/db/production_cache.sqlite3
     migrations_paths: db/cache_migrate
