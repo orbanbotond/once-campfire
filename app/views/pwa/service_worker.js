@@ -1,3 +1,5 @@
+console.debug("this is the serviceWorker");
+
 self.addEventListener("push", async (event) => {
   const data = await event.data.json()
   event.waitUntil(Promise.all([ showNotification(data), updateBadgeCount(data.options) ]))

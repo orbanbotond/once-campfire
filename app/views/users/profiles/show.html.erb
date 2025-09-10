@@ -107,7 +107,7 @@
 
   <%= render "users/profiles/transfer", user: @user %>
 
-  <% if Rails.env.development? %>
+  <% if true || Rails.env.development? %>
     <fieldset>
       <legend>
         <%= image_tag "key.svg", aria: { hidden: "true" }, size: 36, class: "colorize--black" %>

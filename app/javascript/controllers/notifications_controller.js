@@ -10,10 +10,14 @@ export default class extends Controller {
   static classes = [ "attention" ]
 
   async connect() {
+    console.debug('connect')
     if (!pageIsTurboPreview()) {
+      console.debug('!pageIsTurboPreview()')
       if (window.notificationsPreviouslyReady) {
+        console.debug('window.notificationsPreviouslyReady')
         onNextEventLoopTick(() => this.dispatch("ready"))
       } else {
+        console.debug('!window.notificationsPreviouslyReady')
         const firstTimeReady = await this.isEnabled()
 
         this.#pulseBellButton()
@@ -29,7 +33,10 @@ export default class extends Controller {
   }
 
   async attemptToSubscribe() {
+    console.debug('attemptToSubscribe...');
     if (this.#allowed) {
+      console.debug('allowed...done');
+
       const registration = await this.#serviceWorkerRegistration || await this.#registerServiceWorker()
 
       switch(Notification.permission) {
@@ -45,8 +52,15 @@ export default class extends Controller {
   }
 
   async isEnabled() {
+    console.debug('isEnabled...');
+
     if (this.#allowed) {
+      console.debug('allowed...done');
+
       const registration = await this.#serviceWorkerRegistration
+      console.debug('serviceWorkerRegistration..done');
+      console.debug(registration);
+
       const existingSubscription = await registration?.pushManager?.getSubscription()
 
       return Notification.permission == "granted" && registration && existingSubscription
@@ -56,14 +70,20 @@ export default class extends Controller {
   }
 
   get #allowed() {
+    console.debug('allowed...');
     return navigator.serviceWorker && window.Notification
   }
 
   get #serviceWorkerRegistration() {
+    console.debug('serviceWorkerRegistration...');
+    console.debug('window.isSecureContext');
+    console.debug(window.isSecureContext)
+
     return navigator.serviceWorker.getRegistration(window.location.host)
   }
 
   #registerServiceWorker() {
+    console.debug("Registering serviceWorker");
     return navigator.serviceWorker.register("/service-worker.js")
   }
 
@@ -85,6 +105,8 @@ export default class extends Controller {
   }
 
   #pulseBellButton() {
+    console.debug('#pulseBellButton')
+
     if (!this.#hasSeenFirstRun) {
       this.bellTarget.classList.add(this.attentionClass)
     }
