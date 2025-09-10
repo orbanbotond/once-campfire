@@ -32,12 +32,14 @@ class WebPush::Pool
       rescue Exception => e
         Rails.logger.error "Error in WebPush::Pool.deliver: #{e.class} #{e.message}"
       end
-    rescue Concurrent::RejectedExecutionError
+    rescue Concurrent::RejectedExecutionError => e
+        Rails.logger.error "Error in WebPush::Pool.deliver_later: #{e.class} #{e.message}"
     end
 
     def deliver(notification, id)
       notification.deliver(connection: connection)
     rescue WebPush::ExpiredSubscription, OpenSSL::OpenSSLError => ex
+      Rails.logger.error "Error in WebPush::Pool.deliver: #{ex.class} #{ex.message}"
       invalidate_subscription_later(id) if invalid_subscription_handler
     end
 
