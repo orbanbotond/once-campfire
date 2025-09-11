@@ -7,10 +7,10 @@ image: orbanbotond/orbanchat
 # Deploy to these servers.
 servers:
   web:
-    - 188.245.176.233
+    - 91.98.135.15
   job:
     hosts:
-      - 188.245.176.233
+      - 91.98.135.15
     cmd: bin/jobs
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.

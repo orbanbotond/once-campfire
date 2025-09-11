@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Configuration
+SERVER_IP="91.98.135.15"
+SERVER_USER="root"
+CONTAINER_NAME="plans"
+LOCAL_BACKUP_DIR="/Users/orbanbotond/profession/ruby/logic-optimum/plans/storage"
+LOG_FILE="${LOCAL_BACKUP_DIR}/sync_from_local.log"
+
+# Function to log messages
+log_message() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
+}
+
+# Get container ID
+CONTAINER_ID=$(ssh ${SERVER_USER}@${SERVER_IP} "docker ps --filter label=service=${CONTAINER_NAME} --filter label=destination= --filter label=role=web --format '{{.ID}}'" 2>/dev/null)
+
+if [ -z "$CONTAINER_ID" ]; then
+    log_message "ERROR: Could not find container ID"
+    exit 1
+fi
+
+SYNC_FILENAME="development.sqlite3"
+PRODUCTION_FILENAME="production.sqlite3"
+# Copy dev database to production host
+scp "${LOCAL_BACKUP_DIR}/${SYNC_FILENAME}" ${SERVER_USER}@${SERVER_IP}:/root/${PRODUCTION_FILENAME} || exit 1
+
+CONTAINER_PATH="/rails/storage/${PRODUCTION_FILENAME}"
+
+# Copy from host to container
+ssh ${SERVER_USER}@${SERVER_IP} "docker cp /root/${PRODUCTION_FILENAME} ${CONTAINER_ID}:${CONTAINER_PATH}" || exit 1
+ssh ${SERVER_USER}@${SERVER_IP} "docker exec -u root ${CONTAINER_ID} chown rails:rails ${CONTAINER_PATH}" || exit 1
+# ssh ${SERVER_USER}@${SERVER_IP} "docker container exec ${CONTAINER_ID} chown rails:rails ${CONTAINER_PATH}" || exit 1
+
+# ssh root@188.245.176.233 docker container exec 15d438219076 chown rails:rails /rails/storage/production.sqlite3
+# ssh root@188.245.176.233 docker container exec 15d438219076 chown root:root /rails/storage/production.sqlite3
+# TODO: manually execute:
+# ssh ${SERVER_USER}@${SERVER_IP} "docker exec -it --user root ${CONTAINER_ID} /bin/bash"
+# ssh ${SERVER_USER}@${SERVER_IP} "docker exec -it ${CONTAINER_ID} sh" || exit 1
+# chown -R rails:rails ${CONTAINER_PATH}
+
+
+# Cleanup remote files
+ssh ${SERVER_USER}@${SERVER_IP} "rm -f /root/${PRODUCTION_FILENAME}"
+
+log_message "Sync completed: ${BACKUP_FILENAME}"
