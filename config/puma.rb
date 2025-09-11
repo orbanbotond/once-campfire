@@ -53,7 +53,7 @@ plugin :tmp_restart
 plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
 
 # Reset all membership connections
-Membership.disconnect_all
+# Membership.disconnect_all
 
 Signal.trap :SIGPROF do
   Thread.list.each do |t|
