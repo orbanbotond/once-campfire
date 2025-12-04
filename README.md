@@ -24,8 +24,7 @@ would deploy multiple instances of the application.
 
 ## Deploying with Docker
 
-Campfire's Docker image contains everything needed for a fully-functional,
-single-machine deployment. This includes the web app, background jobs, caching,
+Campfire's Docker image contains everything needed for a fully-functional, single-machine deployment. This includes the web app, background jobs, caching,
 file serving, and SSL.
 
 To persist storage of the database and file attachments, map a volume to `/rails/storage`.
